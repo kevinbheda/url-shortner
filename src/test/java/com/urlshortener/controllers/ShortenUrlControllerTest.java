@@ -75,12 +75,11 @@ public class ShortenUrlControllerTest {
 		shortenUrlDao.clearAllUrlEntries();
 	}
 	
-	
 	@Test
 	public void testShortenUrl() throws Exception {
 		final ShortenUrlRequest request = new ShortenUrlRequest();
 		request.setUrl("http://www.google.com");
-		final String requestJson = this.json(request);
+		final String requestJson = this.toJson(request);
 		final MvcResult mvcResult = mockMvc.perform(post("/shorten-url")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(requestJson))
@@ -127,7 +126,7 @@ public class ShortenUrlControllerTest {
 		final String invalidUrl = "sss.com.s";
 		final ShortenUrlRequest request = new ShortenUrlRequest();
 		request.setUrl(invalidUrl);
-		final String requestJson = this.json(request);
+		final String requestJson = this.toJson(request);
 		
 		mockMvc.perform(post("/shorten-url")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -145,7 +144,7 @@ public class ShortenUrlControllerTest {
 		final String blankUrl = "   ";
 		final ShortenUrlRequest request = new ShortenUrlRequest();
 		request.setUrl(blankUrl);
-		final String requestJson = this.json(request);
+		final String requestJson = this.toJson(request);
 		
 		mockMvc.perform(post("/shorten-url")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -164,7 +163,7 @@ public class ShortenUrlControllerTest {
 		final String blankUrl = null;
 		final ShortenUrlRequest request = new ShortenUrlRequest();
 		request.setUrl(blankUrl);
-		final String requestJson = this.json(request);
+		final String requestJson = this.toJson(request);
 		
 		mockMvc.perform(post("/shorten-url")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -175,10 +174,9 @@ public class ShortenUrlControllerTest {
 				.andExpect(jsonPath("$.errors[*]", 
 						containsInAnyOrder("url is not valid", "url cannot be blank", "url cannot be empty")))
 				.andReturn();
-
 	}
 	
-	public String json(final Object o) throws IOException {
+	public String toJson(final Object o) throws IOException {
         final MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
         this.mappingJackson2HttpMessageConverter.write(
                 o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);

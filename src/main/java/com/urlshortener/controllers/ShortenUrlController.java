@@ -42,6 +42,7 @@ public class ShortenUrlController {
 		log.info("translate short url "+  urlKey +" request recieved ");
 		final Optional<String> originalUrl = shortenUrlService.getOriginalUrl(urlKey);
 		if(originalUrl.isPresent())	{
+			log.info("redirect user to " + originalUrl.get());
 			response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 			response.setHeader("Location", originalUrl.get());
 		}
